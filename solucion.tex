@@ -48,7 +48,7 @@
 \section{Problemas}
 \subsection{Ejercicio 1}
 
-\aux{minasAdyacentes}{t: \tablero p: \pos}{$\mathbb{Z}$}{ \sum_{i=0}^{|t|} \sum_{j=0}^{|t[i]|} \IfThenElse{\text{sonAdyacentes}(p, (i,j)) \land t[i][j]}{1}{0}}
+\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{ \sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(p, (i,j)) \land t[i][j]}{1}{0}}
 
 \pred{sonAdyacentes}{p: \pos, q: \pos}{
 	\text{posValida(p)} \yLuego \\ 
