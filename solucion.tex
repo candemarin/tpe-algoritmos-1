@@ -48,12 +48,12 @@
 \section{Problemas}
 \subsection{Ejercicio 1}
 
-\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{ \sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(p, (i,j)) \land t[i][j]}{1}{0}}
+\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{ -1 + \sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(t, p, (i,j)) \land t[i][j]}{1}{0}}
 
-\pred{sonAdyacentes}{p: \pos, q: \pos}{
-	\text{posValida(p)} \yLuego \\ 
-	\text{posValida(q)} \yLuego \\ 
-	\neg (p[0] - q[0] = 0 \land p[1] - q[1] = 0) \land \\
+\pred{sonAdyacentes}{t: \tablero, p: \pos, q: \pos}{
+	\text{/* si p = q el predicado es true */} \\ \\
+	\text{posValida(t, p)} \yLuego \\ 
+	\text{posValida(t, q)} \yLuego \\ 
 	((p[0] - q[0])^2 \leq 1 \land (p[1] - q[1])^2 \leq 1 )
 }
 
