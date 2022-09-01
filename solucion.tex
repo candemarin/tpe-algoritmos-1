@@ -13,8 +13,15 @@
 \materia{Algoritmos y Estructuras de Datos I}
 \grupo{Grupo 11}
 
+% Tipos de ejemplo
 \newcommand{\dato}{\textit{Dato}}
 \newcommand{\individuo}{\textit{Individuo}}
+
+% Tipos de este tp
+\newcommand{\pos}{\textit{pos}}
+\newcommand{\tablero}{\textit{tablero}}
+\newcommand{\jugadas}{\textit{jugadas}}
+\newcommand{\banderitas}{\textit{banderitas}}
 
 % Pongan cuantos integrantes quieran
 \integrante{Marin, Candela Emilia}{1405/21}{canmarin17@gmail.com}
@@ -27,8 +34,10 @@
 
 \section{Definición de Tipos}
 \begin{description}
-	\item type \dato = \ent \hspace{1cm}
-	\item type \individuo = $\TLista{\dato}$
+	\item type \pos = $\mathbb{Z} \times \mathbb{Z}$
+	\item type \tablero = $\TLista{\TLista{\bool}}$
+	\item type \jugadas = $\TLista{\pos \times \mathbb{Z}}$
+	\item type \banderitas = $\TLista{\pos}$
 \end{description}
 
 \section{Constantes}
@@ -36,8 +45,15 @@
 	\aux{MAX}{}{\ent}{10}
 
 
-
 \section{Problemas}
+\subsection{Ejercicio 1}
+
+\aux{minasAdyacentes}{t: \tablero p: \pos}{\mathbb{Z}}{0}
+
+
+% REFERENCIAS - NO BORRAR HASTA TERMINAR EL TP
+
+\section{Ejemplos}
 \subsection{Ejercicio 1}
 
 \begin{proc}{unProblema}{\In t: \dato, \Inout result: $\bool$}{}
