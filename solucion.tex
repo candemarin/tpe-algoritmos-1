@@ -57,6 +57,10 @@
 	((p[0] - q[0])^2 \leq 1 \land (p[1] - q[1])^2 \leq 1 )
 }
 
+\subsection{Ejercicio 2}
+\pred{juegoValido}{t: \tablero, j: \jugadas}{
+(\forall i : \ent) (0 \leq i < |t| \implica	0 \leq j[i][0][0] < |t[0]| \y 0 \leq j[i][0][1] < |t| \yLuego (minasAdyacentes(t, j[i][0]) = j[i][1])
+}
 
 % REFERENCIAS - NO BORRAR HASTA TERMINAR EL TP
 
