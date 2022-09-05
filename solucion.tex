@@ -64,6 +64,35 @@
 (\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(j[i][0]) \yLuego (\text{minasAdyacentes}(t, j[i][0]) = j[i][1])
 }
 
+\subsection{Ejercicio 3}
+
+\begin{proc}{PlantarBanderita}{\In n : {$\mathbb{Z}$}, \In J : \jugadas, \In P : \pos, \Inout b : \banderitas }{}
+    \pre{JugadaValida(n,J) \y NValido(n) \y PosicionValida(n,P) \y b = b_{0}}
+    \post{banderitaValida(P,b,J)}
+    \\ 
+ 
+    \pred{JugadaValida}{\In n : {$\mathbb{Z}$}, \In J : \jugadas} {(\forall i : \mathbb{Z}) (0 \leq i < |J| \implicaLuego ( (0 \leq J[i]_{0} * J[i]_{1} \leq n) \y ( 0 \leq J[i]_{0},J[i]_{1} ) } 
+    
+    %intento pedir que los dos primeros (son la posicion) de cada tripla de j al multiplicarlos sean menores que n, para decir que estan en el tablero
+    %
+    
+    \pred{NValido}{\In n : {$\mathbb{Z}$}} {(( 1 < n) \y ( \neg esPrimo(n)) }
+    
+    %pido que n sea mayor que uno y no sea primo para que el tablero me quede rectangular y no hayan tableros de 1 sola linea por la cantidad de celdas  pero capaz es sobreespecificar
+    %
+    
+    \pred{PosicionValida}{\In n : {$\mathbb{Z}$}, \In P : \pos} {( 0 \leq J[i]_{0} * J[i]_{1} \leq n ) \y ( 0 \leq J[i]_{0} , J[i]_{1} ) }
+    
+    % lo mismo , que la multiplicacion me de menor que n para decir que estan en rango del tablero
+    %
+    
+    \pred{BanderitaValida}{\In P : \pos, \Inout b : \banderitas, \In J : \jugadas} { (Apariciones (b_{0},P)==1) \y (\forall i : \mathbb{Z}) (0 \leq i < |J| \implicaLuego ( (P_{0} != J[i]_{0}) \lor (P_{1} != J[i]_{1}) \implica (b = addfirst(b_{0};P)))}
+    
+    %aparicioneses para que no hayan repetidos en la lista, y luego pido que tampoco este p en jugadas para agregar p a bsub 0
+    %
+    
+\end{proc}
+
 \subsection{Ejercicio 5}
 \begin{proc}{gano}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
 \pre{\text{juegoValido}(t,j)}
