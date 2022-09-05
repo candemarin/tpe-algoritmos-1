@@ -71,19 +71,17 @@
     \post{banderitaValida(P,b,J)}
     \\ 
  
-    \pred{JugadaValida}{\In n : {$\mathbb{Z}$}, \In J : \jugadas} {(\forall i : \mathbb{Z}) (0 \leq i < |J| \implicaLuego ( (0 \leq J[i]_{0} * J[i]_{1} \leq n) \y ( 0 \leq J[i]_{0},J[i]_{1} ) } 
+    \pred{JugadaValida}{\In n : {$\mathbb{Z}$}, \In J : \jugadas} {(\forall i : \mathbb{Z}) (0 \leq i < |J| \implicaLuego ( (0 \leq J[i]_{0} , J[i]_{1} \leq n) \y ( 0 \leq J[i]_{0},J[i]_{1} ) } 
     
-    %intento pedir que los dos primeros (son la posicion) de cada tripla de j al multiplicarlos sean menores que n, para decir que estan en el tablero
+    %intento pedir que los dos primeros (son la posicion) de cada tripla de j sean menores que n, para decir que estan en el tablero
     %
     
-    \pred{NValido}{\In n : {$\mathbb{Z}$}} {(( 1 < n) \y ( \neg esPrimo(n)) }
+    \pred{NValido}{\In n : {$\mathbb{Z}$}} {(1 < n)}
     
-    %pido que n sea mayor que uno y no sea primo para que el tablero me quede rectangular y no hayan tableros de 1 sola linea por la cantidad de celdas  pero capaz es sobreespecificar
-    %
     
-    \pred{PosicionValida}{\In n : {$\mathbb{Z}$}, \In P : \pos} {( 0 \leq J[i]_{0} * J[i]_{1} \leq n ) \y ( 0 \leq J[i]_{0} , J[i]_{1} ) }
+    \pred{PosicionValida}{\In n : {$\mathbb{Z}$}, \In P : \pos} {( 0 \leq J[i]_{0} , J[i]_{1} \leq n ) \y ( 0 \leq J[i]_{0} , J[i]_{1} ) }
     
-    % lo mismo , que la multiplicacion me de menor que n para decir que estan en rango del tablero
+    % lo mismo , que me de menor que n para decir que estan en rango del tablero
     %
     
     \pred{BanderitaValida}{\In P : \pos, \Inout b : \banderitas, \In J : \jugadas} { (Apariciones (b_{0},P)==1) \y (\forall i : \mathbb{Z}) (0 \leq i < |J| \implicaLuego ( (P_{0} != J[i]_{0}) \lor (P_{1} != J[i]_{1}) \implica (b = addfirst(b_{0};P)))}
