@@ -42,14 +42,14 @@
 
 \section{Constantes}
 \pred{posValida}{t: \tablero, p: \pos}{
-	0 \leq p[0] \leq |t| \land 0 \leq p[1] \leq |t[1]|
+	0 \leq p[0] < |t| \yLuego 0 \leq p[1] \leq |t[1]|
 }
 
 
 \section{Problemas}
 \subsection{Ejercicio 1}
 
-\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{ -1 + \sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(t, p, (i,j)) \land t[i][j]}{1}{0}}
+\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(t, p, (i,j)) \land t[i][j]}{1}{0}}
 
 \pred{sonAdyacentes}{t: \tablero, p: \pos, q: \pos}{
 	\text{/* si p = q el predicado es true */} \\ \\
@@ -61,12 +61,12 @@
 \subsection{Ejercicio 2}
 
 \pred{juegoValido}{t: \tablero, j: \jugadas}{
-(\forall i : \mathbb{Z}) (0 \leq i < |t| \implica posValida(j[i][0]) \yLuego (minasAdyacentes(t, j[i][0]) = j[i][1])
+(\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(j[i][0]) \yLuego (\text{minasAdyacentes}(t, j[i][0]) = j[i][1])
 }
 
 \subsection{Ejercicio 5}
 \begin{proc}{gano}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
-\pre{(\forall i : \ent) (0 \leq i < |t| \implica posValida(t, j[i][0])}
+\pre{\text{juegoValido}(t,j)}
 \post{(res = true \iff ((\forall a: \ent)(0 \leq a < |j| \implica l = j[a][0][0] \y k = [a][0][1]) \implicaLuego t[l][k] = false)}
 \end{proc}
 
