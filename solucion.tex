@@ -91,10 +91,18 @@
     
 \end{proc}
 
+\subsection{Ejercicio 4}
+\begin{proc}{perdio}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
+
+\pre{\text{juegoValido}(t,j)}
+\post{res = true \longleftrightarrow (\exists i : \ent)((0 \leq i \leq |j|) \yLuego (l = j[i][0][0] \land k = j[i][0][1] \implica t[l][k] = true ))}
+	
+\end{proc}
+
 \subsection{Ejercicio 5}
 \begin{proc}{gano}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
 \pre{\text{juegoValido}(t,j)}
-\post{(res = true \iff ((\forall a: \ent)(0 \leq a < |j| \implica l = j[a][0][0] \y k = [a][0][1]) \implicaLuego t[l][k] = false)}
+\post{(res = true \longleftrightarrow ((\forall a: \ent)(0 \leq a < |j| \implica l = j[a][0][0] \y k = [a][0][1]) \implicaLuego t[l][k] = false)}
 \end{proc}
 
 % REFERENCIAS - NO BORRAR HASTA TERMINAR EL TP
