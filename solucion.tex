@@ -61,7 +61,7 @@
 \subsection{Ejercicio 2}
 
 \pred{juegoValido}{t: \tablero, j: \jugadas}{
-(\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(j[i][0]) \yLuego (\text{minasAdyacentes}(t, j[i][0]) = j[i][1])
+(\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(j[i]_0) \y \text{\#apariciones(j, j[i]) = 1}) \y \\ \text{minasAdyacentes}(t, j[i]_0) = j[i]_1 
 }
 
 \subsection{Ejercicio 3}
@@ -92,7 +92,7 @@
 \end{proc}
 
 \subsection{Ejercicio 4}
-\begin{proc}{perdio}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
+\begin{proc}{perdió}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
 
 \pre{\text{juegoValido}(t,j)}
 \post{res = true \longleftrightarrow (\exists i : \ent)((0 \leq i \leq |j|) \yLuego (l = j[i][0][0] \land k = j[i][0][1] \implica t[l][k] = true ))}
@@ -100,7 +100,7 @@
 \end{proc}
 
 \subsection{Ejercicio 5}
-\begin{proc}{gano}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
+\begin{proc}{ganó}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
 \pre{\text{juegoValido}(t,j)}
 \post{(res = true \longleftrightarrow ((\forall a: \ent)(0 \leq a < |j| \implica l = j[a][0][0] \y k = [a][0][1]) \implicaLuego t[l][k] = false)}
 \end{proc}
@@ -108,16 +108,24 @@
 
 
 \subsection{Ejercicio 5'}
-\begin{proc}{gano}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
+\begin{proc}{ganó}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
 \pre{\text{juegoValido}(t,j)}
 \post{(res = true \longleftrightarrow ((\forall a: \ent)((0 \leq a < |j|\land|j|=PosicionesLibres(t) )\implicaLuego {perdio}(\In t: \tablero, \In a: \jugadas, \Out res: \bool)= false)}
 
 
-\aux{PosicionesLibres}{t: \tablero}{$\mathbb{Z}$}{\sum_{i=0}^{n-1}  \sum_{j=0}^{n-1} \IfThenElse{\text{t}(i,j)=false } {1} {0}}
+\aux{posicionesLibres}{t: \tablero}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1}  \sum_{j=0}^{|t[i]|-1} \IfThenElse{t[i][j] = false } {1} {0}}
 
+\end{proc}
 
-
-
+\subsection{Ejercicio 5''}
+\begin{proc}{ganó}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
+	\pre{\text{juegoValido}
+	(t,j)}
+	
+	\post{res = true \longleftrightarrow (\forall i : \ent)(0 \leq i < |j| \implicaLuego t[j[i]_{0_0}][j[i]_{0_1}] = false) \y |j| = \text{posLibres}(t)}
+	
+	\aux{posLibres}{t: \tablero}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1}  \sum_{j=0}^{|t[i]|-1} \IfThenElse{t[i][j] = false } {1} {0}}
+\end{proc}
 
 
 
