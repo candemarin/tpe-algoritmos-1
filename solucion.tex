@@ -95,7 +95,7 @@
 \begin{proc}{perdió}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
 
 \pre{\text{juegoValido}(t,j)}
-\post{res = true \longleftrightarrow (\exists i : \ent)((0 \leq i \leq |j|) \yLuego (l = j[i][0][0] \land k = j[i][0][1] \implica t[l][k] = true ))}
+\post{res = true \longleftrightarrow (\exists i : \ent)(0 \leq i \leq |j| \yLuego t[j[i]_{0_0}][j[i]_{0_1}] = true)}
 	
 \end{proc}
 
