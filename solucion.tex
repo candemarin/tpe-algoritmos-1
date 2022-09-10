@@ -105,6 +105,23 @@
 \post{(res = true \longleftrightarrow ((\forall a: \ent)(0 \leq a < |j| \implica l = j[a][0][0] \y k = [a][0][1]) \implicaLuego t[l][k] = false)}
 \end{proc}
 
+
+
+\subsection{Ejercicio 5'}
+\begin{proc}{gano}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
+\pre{\text{juegoValido}(t,j)}
+\post{(res = true \longleftrightarrow ((\forall a: \ent)((0 \leq a < |j|\land|j|=PosicionesLibres(t) )\implica l = j[a][0][0] \y k = [a][0][1]) \implicaLuego t[l][k] = false)}
+
+
+
+\aux{PosicionesLibres}{t: \tablero, p: \pos}{$\mathbb{Z}$}{\sum_{i=0}^{n-1}  \sum_{j=0}^{n-1} \IfThenElse{\text{t}(i,j)=false } {1} {0}}
+
+
+
+
+
+
+
 % REFERENCIAS - NO BORRAR HASTA TERMINAR EL TP
 
 \section{Ejemplos}
