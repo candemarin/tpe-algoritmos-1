@@ -110,8 +110,7 @@
 \subsection{Ejercicio 5'}
 \begin{proc}{gano}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
 \pre{\text{juegoValido}(t,j)}
-\post{(res = true \longleftrightarrow ((\forall a: \ent)((0 \leq a < |j|\land|j|=PosicionesLibres(t) )\implica l = j[a][0][0] \y k = [a][0][1]) \implicaLuego t[l][k] = false)}
-
+\post{(res = true \longleftrightarrow ((\forall a: \ent)((0 \leq a < |j|\land|j|=PosicionesLibres(t) )\implicaLuego {perdio}(\In t: \tablero, \In a: \jugadas, \Out res: \bool)= false)}
 
 
 \aux{PosicionesLibres}{t: \tablero}{$\mathbb{Z}$}{\sum_{i=0}^{n-1}  \sum_{j=0}^{n-1} \IfThenElse{\text{t}(i,j)=false } {1} {0}}
