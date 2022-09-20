@@ -111,8 +111,16 @@
 \subsection{Ejercicio 6}
 \begin{proc}{jugar}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
 \pre{\text j = j_{0} \y {juegoValido}(t,j_{0}) \y p \notin j \y p \notin b}
-\post{j_{0} ++ (p \times minasAdyacentes(t,p) }
+\post{addFist((p \times minasAdyacentes(t,p)), j_{0}) : j   }
 \end{proc}
+
+\subsection{Ejercicio 7}
+
+\pred{caminoLibre}{t: \tablero, p0: \pos, p1: \pos}{
+posValida(t,p0) \y posValida(t,p1) \yLuego  posYadyacentesSinMinas(t, p0) \y \\ (t[p1_{0}][p1_{1}] = false \y posYadyacentesSinMinas(t, p1) = false)
+}
+
+\pred{posYadyacentesSinMinas}{t: \tablero, p: \pos}{(\forall i : \mathbb{Z}) (p_{0} - 2 \leq i \leq p_{0} + 2) \y (\forall j : \mathbb{Z}) (p_{1} - 2 \leq j \leq p_{1} + 2) \implicaLuego \neg \exists t[i][j] = true}
 
 
 
