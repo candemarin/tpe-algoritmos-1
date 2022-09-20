@@ -57,6 +57,18 @@
 	(\exists i : \ent)(0 \leq i < |j| \yLuego j[i]_0 = pos)
 }
 
+\pred{juegoGanado}{t: \tablero, j: \jugadas}{
+	juegoValido(t,j) \yLuego \\
+	(\forall i : \ent)(0 \leq i < |j| \implicaLuego t[j[i]_{0_0}][j[i]_{0_1}] = false) \y |j| = \text{posSinMinas}(t)
+}
+
+\pred{juegoPerdido}{t: \tablero, j: \jugadas}{
+	juegoValido(t,j) \yLuego \\
+	(\exists i : \ent)(0 \leq i \leq |j| \yLuego t[j[i]_{0_0}][j[i]_{0_1}] = true)
+}
+
+\aux{posSinMinas}{t: \tablero}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1}  \sum_{j=0}^{|t[i]|-1} \IfThenElse{t[i][j] = false } {1} {0}}
+
 \section{Problemas}
 \subsection{Ejercicio 1}
 
@@ -65,7 +77,7 @@
 \subsection{Ejercicio 2}
 
 \pred{juegoValido}{t: \tablero, j: \jugadas}{
-(\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(j[i]_0) \y \text{\#apariciones(j, j[i]) = 1}) \y \\ \text{minasAdyacentes}(t, j[i]_0) = j[i]_1)
+(\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(t,j[i]_0) \y \text{\#apariciones(j, j[i]) = 1}) \y \\ \text{minasAdyacentes}(t, j[i]_0) = j[i]_1)
 }
 
 \subsection{Ejercicio 3}
@@ -79,7 +91,7 @@
 \begin{proc}{perdió}{\In t: \tablero, \In j: \jugadas, \Out res: \bool}{}
 
 \pre{\text{juegoValido}(t,j)}
-\post{res = true \longleftrightarrow (\exists i : \ent)(0 \leq i \leq |j| \yLuego t[j[i]_{0_0}][j[i]_{0_1}] = true)}
+\post{res = true \longleftrightarrow juegoPerdidio(t,j)}
 	
 \end{proc}
 
@@ -88,15 +100,13 @@
 	\pre{\text{juegoValido}
 	(t,j)}
 	
-	\post{res = true \longleftrightarrow (\forall i : \ent)(0 \leq i < |j| \implicaLuego t[j[i]_{0_0}][j[i]_{0_1}] = false) \y |j| = \text{posLibres}(t)}
-	
-	\aux{posLibres}{t: \tablero}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1}  \sum_{j=0}^{|t[i]|-1} \IfThenElse{t[i][j] = false } {1} {0}}
+	\post{res = true \longleftrightarrow juegoGanado(t,j)}
 \end{proc}
 
 \subsection{Ejercicio 6}
 \begin{proc}{jugar}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
-\pre{\text j = j_{0} \y {juegoValido}(t,j_{0}) \y p \notin j \y p \notin b}
-\post{addFist((p \times minasAdyacentes(t,p)), j_{0}) : j   }
+\pre{\text j = j_{0} \y {juegoValido}(t,j_{0}) \y \neg juegoGanado(t,j) \y \neg juegoPerdido(t,j) \y \neg posEnJugadas(j_0) \y p \notin b}
+\post{j = addFirst((p, minasAdyacentes(t,p)), j_{0})}
 \end{proc}
 
 \subsection{Ejercicio 7}
