@@ -46,18 +46,21 @@
 	0 \leq p[0] < |t| \yLuego 0 \leq p[1] \leq |t[1]|
 }
 
-
-\section{Problemas}
-\subsection{Ejercicio 1}
-
-\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(t, p, (i,j)) \land t[i][j]}{1}{0}}
-
 \pred{sonAdyacentes}{t: \tablero, p: \pos, q: \pos}{
 	\text{/* si p = q el predicado es true */} \\ \\
 	\text{posValida(t, p)} \land \\ 
 	\text{posValida(t, q)} \land \\ 
 	((p[0] - q[0])^2 \leq 1 \land (p[1] - q[1])^2 \leq 1 )
 }
+
+\pred{posEnJugadas}{p: \pos, j: \jugadas}{
+	(\exists i : \ent)(0 \leq i < |j| \yLuego j[i]_0 = pos)
+}
+
+\section{Problemas}
+\subsection{Ejercicio 1}
+
+\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(t, p, (i,j)) \land t[i][j]}{1}{0}}
 
 \subsection{Ejercicio 2}
 
@@ -68,8 +71,8 @@
 \subsection{Ejercicio 3}
 
 \begin{proc}{PlantarBanderita}{\In t: \tablero, \In j: \jugadas, \In p: \pos, \Inout b : \banderitas }{}
-    \pre{ b = b_{0} \y posValida(t, p) \y p \notin j \y p \notin b_{0}}
-    \post {addfirst(P, b_{0}) : b}
+    \pre{ b = b_{0} \y posValida(t, p) \y \neg posEnJugadas(p,t)\y p \notin b_{0}}
+    \post {b = \text{addFirst}(p, b_{0})}
 \end{proc}
 
 \subsection{Ejercicio 4}
