@@ -125,6 +125,18 @@ posValida(t,p0) \y posValida(t,p1) \yLuego  posYadyacentesSinMinas(t, p0) \y \\ 
 
 
 
+\subsection{Ejercicio 8}
+
+\begin{proc}{jugarPlus}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
+\pre{\tex j=j_{0}\y{juegoValido}(t:\tablero,p:\pos) \y p \notin j \y p \notin b}
+\post{(\forall p_{1}:\pos)({juegoValido}(t:\tablero,p_{1}:\pos)\implicaLuego {caminoLibre}(t:\tablero,p:\pos,p_{1}:\pos)\y (\forall Pnuevo,j_{k}:\pos)({posicionValida}(t:\tablero,Pnuevo:\pos)\y(j_{k}\times minasAdyacentes(t,j_{k})\in j)\y(Pnuevo\times minasAdyacentes(t,Pnuevo) \notin j)\y(nuevaPos(t:\tablero,j_{k}:\pos,Pnuevo:\pos)==Pnuevo)\implicaLuego j=j_{0} ++ p_{1}\times minasAdyacentes(t,p_{1})++Pnuevo\times minasAdyacentes(t,Pnuevo)))}
+
+
+ \aux{nuevaPos}{t:\tablero,p:\pos,Pnuevo:\pos}{\pos}{\IfThenElse{\text sonAdyacentes(p:\pos,Pnuevo:\pos)\y minasAdyacentes(t:\tablero,Pnuevo:\pos)==0} {Pnuevo} {p}}
+ 
+\end{proc}
+
+
 % REFERENCIAS - NO BORRAR HASTA TERMINAR EL TP
 
 \section{Ejemplos}
