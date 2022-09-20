@@ -42,6 +42,7 @@
 
 \section{Constantes}
 \pred{posValida}{t: \tablero, p: \pos}{
+	\text{/* false si t es vacía */} \\\\
 	0 \leq p[0] < |t| \yLuego 0 \leq p[1] \leq |t[1]|
 }
 
@@ -61,15 +62,14 @@
 \subsection{Ejercicio 2}
 
 \pred{juegoValido}{t: \tablero, j: \jugadas}{
-(\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(j[i]_0) \y \text{\#apariciones(j, j[i]) = 1}) \y \\ \text{minasAdyacentes}(t, j[i]_0) = j[i]_1 
+(\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(j[i]_0) \y \text{\#apariciones(j, j[i]) = 1}) \y \\ \text{minasAdyacentes}(t, j[i]_0) = j[i]_1)
 }
 
 \subsection{Ejercicio 3}
 
-\begin{proc}{PlantarBanderita}{\In t: \tablero, \In J : \jugadas, \In P : \pos, \Inout b : \banderitas }{}
-    \pre{ b = b_{0} \y posValida(t, P) \y P \notin J \y P \notin b_{0}}
+\begin{proc}{PlantarBanderita}{\In t: \tablero, \In j: \jugadas, \In p: \pos, \Inout b : \banderitas }{}
+    \pre{ b = b_{0} \y posValida(t, p) \y p \notin j \y p \notin b_{0}}
     \post {addfirst(P, b_{0}) : b}
-    
 \end{proc}
 
 \subsection{Ejercicio 4}
