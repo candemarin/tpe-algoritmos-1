@@ -138,12 +138,28 @@ posValida(t,p0) \y posValida(t,p1) \yLuego  posYadyacentesSinMinas(t, p0) \y \\ 
 	\pre{juegoValido(t,j) \y banderitasValidas(t, b) \y tiene121Valido(t,b,j)}
 	\post{posValida(t, p) \y \neg posEnJugadas(p,j) \y p \notin b \y adyacente121Valido(t,b,j,p)}
 	
-	\pred{adyacente121Valido}{t: \tablero, b: \banderitas, j: \jugadas, p: \pos}{
-		\text{/* jugadas tiene 1-2-1 y p es adyacente y libre */}
-	}
-
 	\pred{tiene121Valido}{t: \tablero, b: \banderitas, j: \jugadas}{
-		\text{/* jugadas tiene 1-2-1 y alguna pos libre que no está en b ni j*/}
+		\text{/* jugadas tiene 1-2-1 y alguna pos libre que no está en b ni j*/} \\ \\ (\exists j1, j2, j3: \pos \times \ent) \\
+		(j1,j2,j3 \in j \y \\ esSecuencia121(t, j1,j2,j3) \y \\ (\exists p': \pos)(sweetSpot(t, j1,j2,j3,p') \y \neg posEnJugadas(p',j) \y p' \notin b) )
+	}
+	
+	\pred{adyacente121Valido}{t: \tablero, b: \banderitas, j: \jugadas, p: \pos}{
+		\text{/* jugadas tiene 1-2-1 y p es adyacente y libre */} \\ \\
+		(\exists j1, j2, j3: \pos \times \ent) \\
+		(j1,j2,j3 \in j \y \\ esSecuencia121(t, j1,j2,j3) \y \\ sweetSpot(t,j1_0,j2_0,j3_0, p))
+	}
+	
+	\pred{esSecuencia121}{t: \tablero, j1: \pos \ x \ent, j2: \pos \ x \ent, j3: \pos \ x \ent}{
+		juegoValido(t, <j1,j2,j3>) \y \text{\hspace{1cm} /* verifica todos distintos en rango */} \\ j1_1 = 1 \y j2_1 = 2 \y j3_1 = 1 \y \\ estanEnLineaReacta(t, j1_0,j2_0,j3_0)
+	}
+	
+	\pred{sweetSpot}{t: \tablero, p1: \pos, p2: \pos, p3: \pos, q: \pos}{
+		\text{/* true si q está en el sweet spot */} \\
+		\\ (sonAdyacentes(t,p1,q) \y sonAdyacentes(t,p2,q) \y sonAdyacentes(t,p3,q)) \lor \\ (sonAdyacentes(t,p1,q) \y \neg sonAdyacentes(t,p2,q) \y \neg sonAdyacentes(t,p3,q)) \lor \\ (\neg sonAdyacentes(t,p1,q) \y \neg sonAdyacentes(t,p2,q) \y sonAdyacentes(t,p3,q)) 
+	}
+	
+	\pred{estanEnLineaRecta}{t: \tablero, p1: \pos, p2: \pos, p3: \pos}{
+		sonAdyacentes(t,p1,p2) \y sonAdyacentes(t,p2,p3) \y \neg sonAdyacentes(t,p1,p3)
 	}
 	
 	\pred{banderitasValidas}{t: \tablero, b: \banderitas}{
