@@ -131,6 +131,26 @@ posValida(t,p0) \y posValida(t,p1) \yLuego  posYadyacentesSinMinas(t, p0) \y \\ 
  
 \end{proc}
 
+\subsection{Ejercicio 9}
+
+\begin{proc}{sugerirAutomatico121}{\In t: \tablero, \In b: \banderitas, \In j: jugadas, \Out p: \pos}{}
+
+	\pre{juegoValido(t,j) \y banderitasValidas(t, b) \y tiene121Valido(t,b,j)}
+	\post{posValida(t, p) \y \neg posEnJugadas(p,j) \y p \notin b \y adyacente121Valido(t,b,j,p)}
+	
+	\pred{adyacente121Valido}{t: \tablero, b: \banderitas, j: \jugadas, p: \pos}{
+		\text{/* jugadas tiene 1-2-1 y p es adyacente y libre */}
+	}
+
+	\pred{tiene121Valido}{t: \tablero, b: \banderitas, j: \jugadas}{
+		\text{/* jugadas tiene 1-2-1 y alguna pos libre que no está en b ni j*/}
+	}
+	
+	\pred{banderitasValidas}{t: \tablero, b: \banderitas}{
+		(\forall i: \ent)(0 \leq i < |b| \implicaLuego posValida(t, b[i]))
+	}
+\end{proc}
+
 
 % REFERENCIAS - NO BORRAR HASTA TERMINAR EL TP
 
