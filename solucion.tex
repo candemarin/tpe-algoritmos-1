@@ -43,14 +43,14 @@
 \section{Constantes}
 \pred{posValida}{t: \tablero, p: \pos}{
 	\text{/* false si t es vacía */} \\\\
-	0 \leq p[0] < |t| \yLuego 0 \leq p[1] \leq |t[1]|
+	0 \leq p_0 < |t| \yLuego 0 \leq p_1 \leq |t[1]|
 }
 
 \pred{sonAdyacentes}{t: \tablero, p: \pos, q: \pos}{
 	\text{/* si p = q el predicado es true */} \\ \\
 	\text{posValida(t, p)} \land \\ 
 	\text{posValida(t, q)} \land \\ 
-	((p[0] - q[0])^2 \leq 1 \land (p[1] - q[1])^2 \leq 1 )
+	((p_0 - q_0)^2 \leq 1 \land (p_1 - q_1)^2 \leq 1 )
 }
 
 \pred{posEnJugadas}{p: \pos, j: \jugadas}{
