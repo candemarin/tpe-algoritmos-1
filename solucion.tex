@@ -112,10 +112,12 @@
 \subsection{Ejercicio 7}
 
 \pred{caminoLibre}{t: \tablero, p0: \pos, p1: \pos}{
-posValida(t,p0) \y posValida(t,p1) \yLuego  posYadyacentesSinMinas(t, p0) \y \\ (t[p1_{0}][p1_{1}] = false \y posYadyacentesSinMinas(t, p1) = false)
+posValida(t, p1) \y posValida(t, p1) \y \\
+	minasAdyacentes(t, p0) = 0 \y  
+	minasAdyacentes(t, p1) \geq 1 \y  t[p1_0][p1_1] = false \y \\ (\forall p2 : \pos)(posValida(t, p2) \y esPosIntermedia(p0, p1, p2) \implicaLuego minasAdyacentes(t, p2) = 0)
 }
 
-\pred{posYadyacentesSinMinas}{t: \tablero, p: \pos}{(\forall i : \mathbb{Z}) (p_{0} - 2 \leq i \leq p_{0} + 2) \y (\forall j : \mathbb{Z}) (p_{1} - 2 \leq j \leq p_{1} + 2) \implicaLuego \neg \exists t[i][j] = true}
+\pred{esPosIntermedia}{ p0: \pos, p1: \pos, p2: \pos}{p0 \neq p1 \neq p2 \yLuego p0_{0} \leq p1_{0} \leq p1_{0} \y p0_{1} \leq p1_{1} \leq p1_{1}}
 
 \subsection{Ejercicio 7'}
 
@@ -170,6 +172,13 @@ posValida(t,p0) \y posValida(t,p1) \yLuego  posYadyacentesSinMinas(t, p0) \y \\ 
 	\pred{seqPosEnJugadas}{s: \TLista{\pos},  j: \jugadas}{
 		(\forall p: \pos)(p \in s \implica posEnJugadas(p, j))
 	}
+\end{proc}
+
+\subsection{Ejercicio 8''}
+\begin{proc}{jugarPlus}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
+	\pre{\text j = j_{0} \y {juegoValido}(t,j_{0}) \y \neg juegoGanado(t,j) \y \neg juegoPerdido(t,j) \y \neg posEnJugadas(j_0) \y p \notin b}
+	
+	\post{p \in n = nuevasJugadas(j0,j) \y (\exists i : \ent)(0 \leq i < |n| \yLuego caminoLibre(t, p, n[i]) \y (\forall j : \ent)(0 \leq j < |n| \implicaLuego esPosIntermedia(p, n[i], n[j]) \y minasAdyacentes(t, p[j]) = 0) }
 \end{proc}
 
 \subsection{Ejercicio 9}
