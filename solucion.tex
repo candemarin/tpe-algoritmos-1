@@ -117,8 +117,34 @@ posValida(t,p0) \y posValida(t,p1) \yLuego  posYadyacentesSinMinas(t, p0) \y \\ 
 
 \pred{posYadyacentesSinMinas}{t: \tablero, p: \pos}{(\forall i : \mathbb{Z}) (p_{0} - 2 \leq i \leq p_{0} + 2) \y (\forall j : \mathbb{Z}) (p_{1} - 2 \leq j \leq p_{1} + 2) \implicaLuego \neg \exists t[i][j] = true}
 
+\subsection{Ejercicio 7'}
 
+\pred{caminoLibre}{t: \tablero, p0: \pos, p1: \pos}{
+	posValida(p1) \y posValida(p2) \y \\ 
+	minasAdyacentes(t, p1) = 0 \y \\ 
+	minasAdyacentes(t, p2) \geq 1 \y t[p2_0][p2_1] = false \y \\ \\\text{/* Existe un camino de p1 a p0 valido */} \\
+	(\exists s: \TLista{\pos})(seqEsCaminoLibre(t, s))
+}
 
+\pred{seqEsCaminoLibre}{t: \tablero, s: \TLista{\pos}}{
+	|s| > 0 \yLuego s[0] = p1 \y s[|s| - 1] = p0 \y sinRepetidos(s) \y \\ seqPosValidas(t, s) \y esCamino(t, s) \y seqSinBombas(\text{tail}(s))
+}
+
+\pred{sinRepetidos}{s: \TLista{\pos}}{
+	(\forall i: \ent)(0 \leq i < |s| \implicaLuego \text{\#apariciones}(s[i]) = 1)
+}
+
+\pred{seqPosValidas}{t: \tablero, s: \TLista{\pos}}{
+	(\forall i: \ent)(0 \leq i < |s| \implicaLuego posValida(t, s[i]))
+}
+
+\pred{esCamino}{t: \tablero, s: \TLista{\pos}}{
+	(\forall i: \ent)(1 \leq i < |s| \implicaLuego sonAdyacentes(t, s[i-1], s[i]))
+}
+
+\pred{seqSinBombas}{t: \tablero, s: \TLista{\pos}}{
+	(\forall i: \ent)(0 \leq i < |s| \implicaLuego minasAdyacentes(t, s[i]) = 0)
+}
 
 \subsection{Ejercicio 8}
 
@@ -129,6 +155,21 @@ posValida(t,p0) \y posValida(t,p1) \yLuego  posYadyacentesSinMinas(t, p0) \y \\ 
 
  \aux{nuevaPos}{t:\tablero,p:\pos,Pnuevo:\pos}{\pos}{\IfThenElse{\text sonAdyacentes(p:\pos,Pnuevo:\pos)\y minasAdyacentes(t:\tablero,Pnuevo:\pos)==0} {Pnuevo} {p}}
  
+\end{proc}
+
+\subsection{Ejercicio 8'}
+\begin{proc}{jugarPlus}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
+	\pre{\text j = j_{0} \y {juegoValido}(t,j_{0}) \y \neg juegoGanado(t,j) \y \neg juegoPerdido(t,j) \y \neg posEnJugadas(j_0) \y p \notin b}
+	
+	\post{posEnJugadas(p, j) \y estaContenida(j_0, j) \y \\minasAdyacentes(t, p) = 0 \implica (\forall s: \TLista{\pos})(seqEsCaminoLibre(t, s) \implica seqPosEnJugadas(s, j))}
+	
+	\pred{estaContenida}{s: \TLista{T}, t: \TLista{T}}{
+		(\forall x: T)(x \in s \implica x \in t)
+	}
+	
+	\pred{seqPosEnJugadas}{s: \TLista{\pos},  j: \jugadas}{
+		(\forall p: \pos)(p \in s \implica posEnJugadas(p, j))
+	}
 \end{proc}
 
 \subsection{Ejercicio 9}
