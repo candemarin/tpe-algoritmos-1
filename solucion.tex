@@ -125,11 +125,11 @@ posValida(t, p1) \y posValida(t, p1) \y \\
 	posValida(p1) \y posValida(p2) \y \\ 
 	minasAdyacentes(t, p1) = 0 \y \\ 
 	minasAdyacentes(t, p2) \geq 1 \y t[p2_0][p2_1] = false \y \\ \\\text{/* Existe un camino de p1 a p0 valido */} \\
-	(\exists s: \TLista{\pos})(seqEsCaminoLibre(t, s))
+	(\exists s: \TLista{\pos})(|s| > 0 \yLuego s[0] = p1 \y s[|s| - 1] = p0 \y seqEsCaminoLibre(t, s))
 }
 
 \pred{seqEsCaminoLibre}{t: \tablero, s: \TLista{\pos}}{
-	|s| > 0 \yLuego s[0] = p1 \y s[|s| - 1] = p0 \y sinRepetidos(s) \y \\ seqPosValidas(t, s) \y esCamino(t, s) \y seqSinBombas(\text{tail}(s))
+	sinRepetidos(s) \y seqPosValidas(t, s) \y esCamino(s) \y seqSinBombas(\text{tail}(s))
 }
 
 \pred{sinRepetidos}{s: \TLista{\pos}}{
@@ -140,8 +140,12 @@ posValida(t, p1) \y posValida(t, p1) \y \\
 	(\forall i: \ent)(0 \leq i < |s| \implicaLuego posValida(t, s[i]))
 }
 
-\pred{esCamino}{t: \tablero, s: \TLista{\pos}}{
-	(\forall i: \ent)(1 \leq i < |s| \implicaLuego sonAdyacentes(t, s[i-1], s[i]))
+\pred{esCamino}{s: \TLista{\pos}}{
+	(\forall i: \ent)(1 \leq i < |s| \implicaLuego aUnPaso(s[i-1], s[i]))
+}
+
+\pred{aUnPaso}{p: \pos, q: \pos}{
+	(p_0 - q_0)^2 + (p_1-q_1)^2 = 1
 }
 
 \pred{seqSinBombas}{t: \tablero, s: \TLista{\pos}}{
@@ -163,15 +167,24 @@ posValida(t, p1) \y posValida(t, p1) \y \\
 \begin{proc}{jugarPlus}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
 	\pre{\text j = j_{0} \y {juegoValido}(t,j_{0}) \y \neg juegoGanado(t,j) \y \neg juegoPerdido(t,j) \y \neg posEnJugadas(j_0) \y p \notin b}
 	
-	\post{posEnJugadas(p, j) \y estaContenida(j_0, j) \y \\minasAdyacentes(t, p) = 0 \implica (\forall s: \TLista{\pos})(seqEsCaminoLibre(t, s) \implica seqPosEnJugadas(s, j))}
+	\post{posEnJugadas(p, j) \y estaContenida(j_0, j) \y sinRepetidos(j) \y \\ (\forall x: \pos \times \ent)(esNuevaJugada(x) \longleftrightarrow caminoLibreV2(t, p, x))}
 	
 	\pred{estaContenida}{s: \TLista{T}, t: \TLista{T}}{
 		(\forall x: T)(x \in s \implica x \in t)
 	}
 	
-	\pred{seqPosEnJugadas}{s: \TLista{\pos},  j: \jugadas}{
-		(\forall p: \pos)(p \in s \implica posEnJugadas(p, j))
+	\pred{esNuevaJugada}{x: \pos \, x \ent}{
+		\text{\#apariciones}(j_0, x) = 0 \y \\ \text{\#apariciones}(j, x) = 1
 	}
+	
+	\pred{caminoLibreV2}{t: \tablero, p0: \pos, p1: \pos}{
+	\text{/* Igual a caminoLibre pero minasAdyacentes(p1) puede ser 0 */} \\\\
+	posValida(p1) \y posValida(p2) \y \\ 
+	minasAdyacentes(t, p1) = 0 \y \\ 
+	t[p2_0][p2_1] = false \y \\ \\\text{/* Existe un camino de p1 a p0 valido */} \\
+	(\exists s: \TLista{\pos})(|s| > 0 \yLuego s[0] = p1 \y s[|s| - 1] = p0 \y seqEsCaminoLibre(t, s))
+	}
+	
 \end{proc}
 
 \subsection{Ejercicio 8''}
