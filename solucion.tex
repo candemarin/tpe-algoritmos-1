@@ -43,7 +43,11 @@
 \section{Constantes}
 \pred{posValida}{t: \tablero, p: \pos}{
 	\text{/* false si t es vacía */} \\\\
-	0 \leq p_0 < |t| \yLuego 0 \leq p_1 \leq |t[1]|
+	0 \leq p_0 < |t| \yLuego 0 \leq p_1 < |t[1]|
+}
+
+\pred{tableroValido}{t: \tablero}{
+	(\forall i : \ent)(0 \leq i < |t| \implicaLuego |t[i]| = |t|) 
 }
 
 \pred{sonAdyacentes}{t: \tablero, p: \pos, q: \pos}{
@@ -54,36 +58,39 @@
 }
 
 \pred{posEnJugadas}{p: \pos, j: \jugadas}{
-	(\exists i : \ent)(0 \leq i < |j| \yLuego j[i]_0 = pos)
+	(\exists i : \ent)(0 \leq i < |j| \yLuego j[i]_0 = p)
 }
 
 \pred{juegoGanado}{t: \tablero, j: \jugadas}{
 	juegoValido(t,j) \yLuego \\
-	(\forall i : \ent)(0 \leq i < |j| \implicaLuego t[j[i]_{0_0}][j[i]_{0_1}] = false) \y |j| = \text{posSinMinas}(t)
+	(\forall i : \ent)(0 \leq i < |j| \implicaLuego t[j[i]_{0_0}][j[i]_{0_1}] = false) \y |j| = \text{\#posSinMinas}(t)
 }
 
 \pred{juegoPerdido}{t: \tablero, j: \jugadas}{
 	juegoValido(t,j) \yLuego \\
-	(\exists i : \ent)(0 \leq i \leq |j| \yLuego t[j[i]_{0_0}][j[i]_{0_1}] = true)
+	(\exists i : \ent)(0 \leq i < |j| \yLuego t[j[i]_{0_0}][j[i]_{0_1}] = true)
 }
 
-\aux{posSinMinas}{t: \tablero}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1}  \sum_{j=0}^{|t[i]|-1} \IfThenElse{t[i][j] = false } {1} {0}}
+\aux{\#posSinMinas}{t: \tablero}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1}  \sum_{j=0}^{|t[i]|-1} \IfThenElse{t[i][j] = false } {1} {0}}
+
+\newpage
 
 \section{Problemas}
 \subsection{Ejercicio 1}
 
-\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(t, p, (i,j)) \land t[i][j]}{1}{0}}
+\aux{minasAdyacentes}{t: \tablero, p: \pos}{$\mathbb{Z}$}{\sum_{i=0}^{|t|-1} \sum_{j=0}^{|t[i]|-1} \IfThenElse{\text{sonAdyacentes}(t, p, (i,j)) \land t[i][j] = true}{1}{0}}
 
 \subsection{Ejercicio 2}
 
 \pred{juegoValido}{t: \tablero, j: \jugadas}{
+tableroValido(t) \y \\
 (\forall i : \mathbb{Z}) (0 \leq i < |j| \implicaLuego \text{posValida}(t,j[i]_0) \y \text{\#apariciones(j, j[i]) = 1}) \y \\ \text{minasAdyacentes}(t, j[i]_0) = j[i]_1)
 }
 
 \subsection{Ejercicio 3}
 
 \begin{proc}{PlantarBanderita}{\In t: \tablero, \In j: \jugadas, \In p: \pos, \Inout b : \banderitas }{}
-    \pre{ b = b_{0} \y posValida(t, p) \y \neg posEnJugadas(p,t)\y p \notin b_{0}}
+    \pre{ b = b_{0} \y juegoValido(t, j) \y posValida(t, p) \y \neg posEnJugadas(p,t)\y p \notin b_{0}}
     \post {b = \text{addFirst}(p, b_{0})}
 \end{proc}
 
@@ -109,13 +116,12 @@
 \post{j = addFirst((p, minasAdyacentes(t,p)), j_{0})}
 \end{proc}
 
-
 \subsection{Ejercicio 7}
 
 \pred{caminoLibre}{t: \tablero, p0: \pos, p1: \pos}{
-	posValida(p1) \y posValida(p2) \y \\ 
-	minasAdyacentes(t, p1) = 0 \y \\ 
-	minasAdyacentes(t, p2) \geq 1 \y t[p2_0][p2_1] = false \y \\ \\\text{/* Existe un camino de p1 a p0 valido */} \\
+	posValida(p0) \y posValida(p1) \y \\ 
+	minasAdyacentes(t, p0) = 0 \y \\ 
+	minasAdyacentes(t, p1) \geq 1 \y t[p1_0][p1_1] = false \y \\ \\\text{/* Existe un camino de p1 a p0 valido */} \\
 	(\exists s: \TLista{\pos})(|s| > 0 \yLuego s[0] = p1 \y s[|s| - 1] = p0 \y seqEsCaminoLibre(t, s))
 }
 
@@ -160,9 +166,9 @@
 	
 	\pred{caminoLibreV2}{t: \tablero, p0: \pos, p1: \pos}{
 	\text{/* Igual a caminoLibre pero minasAdyacentes(p1) puede ser 0 */} \\\\
-	posValida(p1) \y posValida(p2) \y \\ 
-	minasAdyacentes(t, p1) = 0 \y \\ 
-	t[p2_0][p2_1] = false \y \\ \\\text{/* Existe un camino de p1 a p0 valido */} \\
+	posValida(p0) \y posValida(p1) \y \\ 
+	minasAdyacentes(t, p0) = 0 \y \\ 
+	t[p1_0][p1_1] = false \y \\ \\\text{/* Existe un camino de p1 a p0 valido */} \\
 	(\exists s: \TLista{\pos})(|s| > 0 \yLuego s[0] = p1 \y s[|s| - 1] = p0 \y seqEsCaminoLibre(t, s))
 	}
 	
@@ -178,26 +184,26 @@
 	
 	\pred{tiene121Valido}{t: \tablero, b: \banderitas, j: \jugadas}{
 		\text{/* jugadas tiene 1-2-1 y alguna pos libre que no está en b ni j*/} \\ \\ (\exists j1, j2, j3: \pos \times \ent) \\
-		(j1,j2,j3 \in j \y \\ esSecuencia121(t, j1,j2,j3) \y \\ (\exists p': \pos)(sweetSpot(t, j1,j2,j3,p') \y \neg posEnJugadas(p',j) \y p' \notin b) )
+		(j1,j2,j3 \in j \y \\ esSecuencia121(t, j1,j2,j3) \y \\ (\exists p': \pos)(estaEnPosSinMina(t, j1,j2,j3,p') \y \neg posEnJugadas(p',j) \y p' \notin b) )
 	}
 	
 	\pred{adyacente121Valido}{t: \tablero, b: \banderitas, j: \jugadas, p: \pos}{
 		\text{/* jugadas tiene 1-2-1 y p es adyacente y libre */} \\ \\
 		(\exists j1, j2, j3: \pos \times \ent) \\
-		(j1,j2,j3 \in j \y \\ esSecuencia121(t, j1,j2,j3) \y \\ sweetSpot(t,j1_0,j2_0,j3_0, p))
+		(j1,j2,j3 \in j \y \\ esSecuencia121(t, j1,j2,j3) \y \\ estaEnPosSinMina(t,j1_0,j2_0,j3_0, p))
 	}
 	
 	\pred{esSecuencia121}{t: \tablero, j1: \pos \ x \ent, j2: \pos \ x \ent, j3: \pos \ x \ent}{
 		juegoValido(t, <j1,j2,j3>) \y \text{\hspace{1cm} /* verifica todos distintos en rango */} \\ j1_1 = 1 \y j2_1 = 2 \y j3_1 = 1 \y \\ estanEnLineaReacta(t, j1_0,j2_0,j3_0)
 	}
 	
-	\pred{sweetSpot}{t: \tablero, p1: \pos, p2: \pos, p3: \pos, q: \pos}{
-		\text{/* true si q está en el sweet spot */} \\
+	\pred{estaEnPosSinMina}{t: \tablero, p1: \pos, p2: \pos, p3: \pos, q: \pos}{
+		\text{/* true si q está una pos sin mina */} \\
 		\\ (sonAdyacentes(t,p1,q) \y sonAdyacentes(t,p2,q) \y sonAdyacentes(t,p3,q)) \lor \\ (sonAdyacentes(t,p1,q) \y \neg sonAdyacentes(t,p2,q) \y \neg sonAdyacentes(t,p3,q)) \lor \\ (\neg sonAdyacentes(t,p1,q) \y \neg sonAdyacentes(t,p2,q) \y sonAdyacentes(t,p3,q)) 
 	}
 	
 	\pred{estanEnLineaRecta}{t: \tablero, p1: \pos, p2: \pos, p3: \pos}{
-		sonAdyacentes(t,p1,p2) \y sonAdyacentes(t,p2,p3) \y \neg sonAdyacentes(t,p1,p3)
+		aUnPaso(t,p1,p2) \y aUnPaso(t,p2,p3) \y \neg aUnPaso(t,p1,p3)
 	}
 	
 	\pred{banderitasValidas}{t: \tablero, b: \banderitas}{
