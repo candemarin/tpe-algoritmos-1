@@ -206,38 +206,4 @@
 \end{proc}
 
 
-% REFERENCIAS - NO BORRAR HASTA TERMINAR EL TP
-
-\section{Ejemplos}
-\subsection{Ejercicio 1}
-
-\begin{proc}{unProblema}{\In t: \dato, \Inout result: $\bool$}{}
-    \pre{\True}
-    \post{result = \True \leftrightarrow predicadoPrincipal(t)}
-    
-    \pred{predicadoPrincipal}{d:\dato}{
-    	pred1(d) \y pred2(d)
-    }
-    
-    \pred{pred1}{d:\dato} {...}
-    \pred{pred2}{d:\dato} {...}
-\end{proc}
-
-
-
-
-\subsection{Ejercicio 2}
-\begin{proc}{otroProblema}{\In i: \individuo, \Inout result: $\bool$}{}
-	\pre{|i| > MIN()}
-	\post{result = \True \leftrightarrow predicadoPrincipal2(i)}
-	
-	\pred{predicadoPrincipal2}{i:\individuo}{ 
-		pred1(i) \y \neg pred3(i)
-	}
-	
-	\pred{pred3}{i:\individuo} {...}
-\end{proc}
-
-
-
 \end{document}
