@@ -27,7 +27,7 @@
 \integrante{Marin, Candela Emilia}{1405/21}{canmarin17@gmail.com}
 \integrante{Borja, Kurt}{695/19}{kuurtb@gmail.com}
 \integrante{Figueroa Isarrualde, Leandro}{213/17}{leanisarrualde@gmail.com}
-\integrante{Sánchez, Warren}{004/15}{tienelasrespuestas@les.luthier.com}
+\integrante{Messer, Santiago}{455/18}{santimesser@gmail.com}
 
 \maketitle
 
@@ -109,17 +109,8 @@
 \post{j = addFirst((p, minasAdyacentes(t,p)), j_{0})}
 \end{proc}
 
+
 \subsection{Ejercicio 7}
-
-\pred{caminoLibre}{t: \tablero, p0: \pos, p1: \pos}{
-posValida(t, p1) \y posValida(t, p1) \y \\
-	minasAdyacentes(t, p0) = 0 \y  
-	minasAdyacentes(t, p1) \geq 1 \y  t[p1_0][p1_1] = false \y \\ (\forall p2 : \pos)(posValida(t, p2) \y esPosIntermedia(p0, p1, p2) \implicaLuego minasAdyacentes(t, p2) = 0)
-}
-
-\pred{esPosIntermedia}{ p0: \pos, p1: \pos, p2: \pos}{p0 \neq p1 \neq p2 \yLuego p0_{0} \leq p1_{0} \leq p1_{0} \y p0_{1} \leq p1_{1} \leq p1_{1}}
-
-\subsection{Ejercicio 7'}
 
 \pred{caminoLibre}{t: \tablero, p0: \pos, p1: \pos}{
 	posValida(p1) \y posValida(p2) \y \\ 
@@ -152,18 +143,8 @@ posValida(t, p1) \y posValida(t, p1) \y \\
 	(\forall i: \ent)(0 \leq i < |s| \implicaLuego minasAdyacentes(t, s[i]) = 0)
 }
 
+
 \subsection{Ejercicio 8}
-
-\begin{proc}{jugarPlus}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
-\pre{\tex j=j_{0}\y{juegoValido}(t:\tablero,p:\pos) \y p \notin j \y p \notin b}
-\post{(\forall p_{1}:\pos)({juegoValido}(t:\tablero,p_{1}:\pos)\implicaLuego {caminoLibre}(t:\tablero,p:\pos,p_{1}:\pos)\y (\forall Pnuevo,j_{k}:\pos)({posicionValida}(t:\tablero,Pnuevo:\pos)\y(j_{k}\times minasAdyacentes(t,j_{k})\in j)\y(Pnuevo\times minasAdyacentes(t,Pnuevo) \notin j)\y(nuevaPos(t:\tablero,j_{k}:\pos,Pnuevo:\pos)==Pnuevo)\implicaLuego j=j_{0} ++ p_{1}\times minasAdyacentes(t,p_{1})++Pnuevo\times minasAdyacentes(t,Pnuevo)))}
-
-
- \aux{nuevaPos}{t:\tablero,p:\pos,Pnuevo:\pos}{\pos}{\IfThenElse{\text sonAdyacentes(p:\pos,Pnuevo:\pos)\y minasAdyacentes(t:\tablero,Pnuevo:\pos)==0} {Pnuevo} {p}}
- 
-\end{proc}
-
-\subsection{Ejercicio 8'}
 \begin{proc}{jugarPlus}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
 	\pre{\text j = j_{0} \y {juegoValido}(t,j_{0}) \y \neg juegoGanado(t,j) \y \neg juegoPerdido(t,j) \y \neg posEnJugadas(j_0) \y p \notin b}
 	
@@ -187,12 +168,6 @@ posValida(t, p1) \y posValida(t, p1) \y \\
 	
 \end{proc}
 
-\subsection{Ejercicio 8''}
-\begin{proc}{jugarPlus}{\In t: \tablero, \In b: \banderitas, \In p : \pos, \Inout j: \jugadas}{}
-	\pre{\text j = j_{0} \y {juegoValido}(t,j_{0}) \y \neg juegoGanado(t,j) \y \neg juegoPerdido(t,j) \y \neg posEnJugadas(j_0) \y p \notin b}
-	
-	\post{p \in n = nuevasJugadas(j0,j) \y (\exists i : \ent)(0 \leq i < |n| \yLuego caminoLibre(t, p, n[i]) \y (\forall j : \ent)(0 \leq j < |n| \implicaLuego esPosIntermedia(p, n[i], n[j]) \y minasAdyacentes(t, p[j]) = 0) }
-\end{proc}
 
 \subsection{Ejercicio 9}
 
