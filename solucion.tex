@@ -203,7 +203,7 @@ tableroValido(t) \y \\
 	}
 	
 	\pred{estanEnLineaRecta}{t: \tablero, p1: \pos, p2: \pos, p3: \pos}{
-		aUnPaso(t,p1,p2) \y aUnPaso(t,p2,p3) \y \neg aUnPaso(t,p1,p3)
+		aUnPaso(t,p1,p2) \y aUnPaso(t,p2,p3) \y \neg sonAdyacentes(t,p1,p3)
 	}
 	
 	\pred{banderitasValidas}{t: \tablero, b: \banderitas}{
